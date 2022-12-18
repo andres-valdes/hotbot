@@ -1,19 +1,10 @@
-import {Client, REST} from 'discord.js';
-import {commands} from './commands';
-import dotenv from 'dotenv';
+import { getAPIClient, getRESTClient } from './components/discord';
+import { CommandManager } from './components/command-manager';
 
-const token = dotenv.config().parsed!['TOKEN'];
+async function start(): Promise<void> {
+    const syncedCommands = await CommandManager.get().registerWithServer(getRESTClient());
+    await getAPIClient();
+    console.log(`Synchronized commands with server: [${Object.keys(syncedCommands)}]`);
+}
 
-const client = new Client({intents: ['GuildVoiceStates', 'GuildMessages', 'Guilds']});
-const discord = new REST({version: '10'}).setToken(token);
-
-client.on('interactionCreate', async interaction => {
-    if (!interaction.isChatInputCommand()) {
-        return;
-    }
-    await commands.exectute(interaction);
-});
-client.once('ready', () => console.log('Hot Bot is ready.'));
-client.login(token).then(console.log).catch(console.error);
-
-commands.registerWithServer(discord);
+start();

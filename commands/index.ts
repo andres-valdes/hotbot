@@ -1,32 +1,8 @@
-import { SlashCommandBuilder, CommandInteraction, REST, Routes } from "discord.js";
-import dotenv from 'dotenv';
+import { Command } from './command';
+import { play } from './play';
+import { shutdown } from './shutdown';
+import { stfu } from './stfu';
 
-export type Command = {
-    data: SlashCommandBuilder,
-    execute: (interaction: CommandInteraction) => Promise<void>
-};
+export type { Command } from './command';
 
-class Commands {
-    constructor(private commands: Record<string, Command> = {}) {
-    }
-
-    public register(command: Command): void {
-        this.commands[command.data.name] = command;
-    }
-
-    public async exectute(interaction: CommandInteraction) {
-        if (!this.commands[interaction.commandName]) {
-            return;
-        }
-        return await this.commands[interaction.commandName].execute(interaction);
-    }
-
-    public async registerWithServer(discord: REST): Promise<void> {
-        const commandData = Object.entries(this.commands).map(([_, command]) => command.data.toJSON());
-        await discord.put(Routes.applicationCommands(dotenv.config().parsed!['CLIENT_ID']), { body: commandData });
-    }
-}
-
-export const commands = new Commands();
-
-require('./summon');
+export const commands: Command[] = [play, shutdown, stfu];
