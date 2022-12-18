@@ -23,7 +23,7 @@ class Commands {
 
     public async registerWithServer(discord: REST): Promise<void> {
         const commandData = Object.entries(this.commands).map(([_, command]) => command.data.toJSON());
-        await discord.put(Routes.applicationCommands(dotenv.config().parsed!['CLIENT_ID']), {body: commandData});
+        await discord.put(Routes.applicationCommands(dotenv.config().parsed!['CLIENT_ID']), { body: commandData });
     }
 }
 
