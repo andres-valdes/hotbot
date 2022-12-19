@@ -3,18 +3,18 @@ import { SlashCommandBuilder, GuildMember } from 'discord.js';
 import { createCommand } from './command';
 import { getPlayer } from '../components/player';
 
-enum subcommands {
-    search = 'search',
-    url = 'url',
+enum SubCommand {
+    SEARCH = 'SEARCH',
+    URL = 'URL',
 }
 
 export const play = createCommand({
     data: new SlashCommandBuilder()
         .setName('play')
-        .setDescription('Play "Biggie Smalls feat. Thomas the Tank Engine"')
+        .setDescription('Play a song or playlist.')
         .addSubcommand(subcommand =>
             subcommand
-                .setName(subcommands.search)
+                .setName(SubCommand.SEARCH)
                 .setDescription('Searches for a song')
                 .addStringOption(
                     option =>
@@ -26,7 +26,7 @@ export const play = createCommand({
         )
         .addSubcommand(subcommand =>
             subcommand
-                .setName(subcommands.url)
+                .setName(SubCommand.URL)
                 .setDescription('Link a specific song or playlist')
                 .addStringOption(
                     option =>
@@ -40,38 +40,32 @@ export const play = createCommand({
     async execute(interaction) {
         const member = interaction.member as GuildMember;
         const channel = member.voice.channel;
-        const url = interaction.options.getString('url');
-        console.log(interaction.options);
-
         if (channel == null) {
             await interaction.reply('You need to be in a voice channel to summon me, dumbass.');
             return;
         }
 
-        let player_arguments = null;
+        let playerArguments: string | null = null;
         switch (interaction.options.getSubcommand()) {
-            case subcommands.search: {
-                player_arguments = interaction.options.getString('search-terms');
-                console.log(`searching for keywords ${player_arguments}`);
+            case SubCommand.SEARCH: {
+                playerArguments = interaction.options.getString('search-terms');
+                console.log(`Searching for keywords ${playerArguments}`);
                 break;
             }
-            case subcommands.url: {
-                const maybe_url = interaction.options.getString(subcommands.url);
-                if (maybe_url == null) {
-                    console.log('url was null');
-                    return;
+            case SubCommand.URL: {
+                const maybeUrl = interaction.options.getString(SubCommand.URL);
+                if (maybeUrl == null) {
+                    throw new Error('Null URL passed');
                 }
-                player_arguments = new URL(maybe_url).toString();
-                console.log(`loading url ${player_arguments}`);
+                playerArguments = new URL(maybeUrl).toString();
+                console.log(`Loading url ${playerArguments}`);
                 break;
             }
         }
-
-        if (player_arguments == null) {
-            return;
+        if (playerArguments == null) {
+            throw new Error('Failed to parse arguments');
         }
 
-        await (await getPlayer()).play(channel, player_arguments);
-        await interaction.reply('playing stuff');
+        await (await getPlayer()).play(channel, playerArguments);
     }
 });
