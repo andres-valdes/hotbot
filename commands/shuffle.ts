@@ -7,7 +7,7 @@ export const shuffle = createCommand({
         .setName('shuffle')
         .setDescription('Shuffles the list of songs')
         .toJSON(),
-    async execute(interaction, player) {
+    async execute(interaction, {player}) {
         const member = interaction.member as GuildMember;
         const channel = member.voice.channel;
         if (channel == null) {
