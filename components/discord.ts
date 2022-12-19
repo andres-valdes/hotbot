@@ -21,6 +21,9 @@ export async function getAPIClient(): Promise<Client<boolean>> {
             await CommandManager.get().exectute(interaction);
         } catch (e) {
             console.error(e);
+            if (interaction.isRepliable()) {
+                await interaction.reply('can you not?');
+            }
         }
     });
     const authedToken = await apiClient.login(token);

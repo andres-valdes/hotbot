@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 
 import { commands } from '../commands';
 import type { Command } from '../commands';
+import { getPlayer } from "./player";
 
 export class CommandManager {
     static instance: CommandManager | null;
@@ -19,7 +20,7 @@ export class CommandManager {
         if (!this.registeredCommands[interaction.commandName]) {
             return;
         }
-        return await this.registeredCommands[interaction.commandName].execute(interaction);
+        return await this.registeredCommands[interaction.commandName].execute(interaction, await getPlayer());
     }
 
     public async registerWithServer(restClient: REST): Promise<Record<string, Command>> {
