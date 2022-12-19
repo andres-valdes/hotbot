@@ -7,7 +7,12 @@ export async function getPlayer(): Promise<DisTube> {
     if (player != null) {
         return player;
     }
-    player = new DisTube(await getAPIClient());
+    player = new DisTube(await getAPIClient(), {
+        ytdlOptions: {
+            quality: 'highestaudio',
+            highWaterMark: 1 << 25
+        }
+    });
     player.on('playSong', async () => console.log('playSong'));
     player.on('disconnect', async () => console.log('disconnected'));
     player.on('finish', async () => console.log('finish'));
