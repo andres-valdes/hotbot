@@ -3,7 +3,7 @@ import { SlashCommandBuilder, GuildMember } from 'discord.js';
 import { createCommand } from './command';
 import { getPlayer } from '../components/player';
 
-declare enum subcommands {
+enum subcommands {
     search = 'search',
     url = 'url',
 }
@@ -49,17 +49,20 @@ export const play = createCommand({
         }
 
         let player_arguments = null;
-        switch (interaction.options.getSubcommand.name) {
+        switch (interaction.options.getSubcommand()) {
             case subcommands.search: {
                 player_arguments = interaction.options.getString(subcommands.search);
+                console.log('searching for keywords');
                 break;
             }
             case subcommands.url: {
-                const maybe_url = interaction.options.getString(subcommands.search);
+                const maybe_url = interaction.options.getString(subcommands.url);
                 if (maybe_url == null) {
+                    console.log('url was null');
                     return;
                 }
                 player_arguments = new URL(maybe_url).toString();
+                console.log('loading url');
                 break;
             }
         }
@@ -68,6 +71,7 @@ export const play = createCommand({
             return;
         }
 
+        
         await (await getPlayer()).play(channel, player_arguments);
 
         await interaction.reply('playing stuff');
