@@ -1,5 +1,6 @@
 import { DisTube } from 'distube';
 import { getAPIClient } from './discord';
+import { SpotifyPlugin } from '@distube/spotify';
 
 var player: DisTube | null = null;
 
@@ -11,7 +12,10 @@ export async function getPlayer(): Promise<DisTube> {
         ytdlOptions: {
             quality: 'highestaudio',
             highWaterMark: 1 << 25
-        }
+        },
+        plugins: [new SpotifyPlugin({
+            parallel: true,
+        })],
     });
     player.on('playSong', async () => console.log('playSong'));
     player.on('disconnect', async () => console.log('disconnected'));
