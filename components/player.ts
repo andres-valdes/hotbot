@@ -20,7 +20,7 @@ export async function getPlayer(): Promise<DisTube> {
     });
     player.on('playSong', async (_, song) => {
         const client = await getAPIClient();
-        const channel = client.channels.resolve('1053552615738331206');
+        const channel = client.channels.resolve(ChannelManager.getx());
         if (channel?.isTextBased()) {
             await channel.send(`Playing ${song.name}`);
         }
