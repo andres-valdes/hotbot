@@ -11,7 +11,7 @@ export const queue = createCommand({
             .setDescription('The URL of the audio to queue.')
             .setRequired(true))
         .toJSON(),
-    async execute(interaction, player) {
+    async execute(interaction, { player }) {
         const member = interaction.member as GuildMember;
         const channel = member.voice.channel;
         if (channel == null) {
@@ -23,7 +23,6 @@ export const queue = createCommand({
             throw new Error();
         }
         const url = new URL(urlQuery);
-
         await player.play(channel, url.toString());
         await interaction.reply(`Added song to queue`);
     }

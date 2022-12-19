@@ -1,8 +1,9 @@
 import { DisTube } from 'distube';
+import { ChannelManager } from './channel-manager';
 import { getAPIClient } from './discord';
 import { SpotifyPlugin } from '@distube/spotify';
 
-var player: DisTube | null = null;
+let player: DisTube | null = null;
 
 export async function getPlayer(): Promise<DisTube> {
     if (player != null) {
@@ -17,11 +18,23 @@ export async function getPlayer(): Promise<DisTube> {
             parallel: true,
         })],
     });
-    player.on('playSong', async () => console.log('playSong'));
+    player.on('playSong', async (_, song) => {
+        const client = await getAPIClient();
+        const channel = client.channels.resolve('1053552615738331206');
+        if (channel?.isTextBased()) {
+            await channel.send(`Playing ${song.name}`);
+        }
+    });
     player.on('disconnect', async () => console.log('disconnected'));
     player.on('finish', async () => console.log('finish'));
     player.on('finishSong', async () => console.log('finishedSong'));
-    player.on('addSong', async () => console.log('addSong'));
+    player.on('addSong', async (_, song) => {
+        const client = await getAPIClient();
+        const channel = ChannelManager.getx();
+        if (channel?.isTextBased()) {
+            await channel.send(`Added ${song.name} to the queue`);
+        }
+    });
     return player;
 }
 
