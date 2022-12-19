@@ -6,7 +6,8 @@ import { getPlayer } from '../components/player';
 export const play = createCommand({
     data: new SlashCommandBuilder()
         .setName('play')
-        .setDescription('Play "Biggie Smalls feat. Thomas the Tank Engine"'),
+        .setDescription('Play "Biggie Smalls feat. Thomas the Tank Engine"')
+        .toJSON(),
     async execute(interaction) {
         const member = interaction.member as GuildMember;
         const channel = member.voice.channel;
@@ -15,6 +16,7 @@ export const play = createCommand({
             return;
         }
         await (await getPlayer()).play(channel, 'https://www.youtube.com/watch?v=ETfiUYij5UE');
+        
         await interaction.reply('playing stuff');
     }
 });

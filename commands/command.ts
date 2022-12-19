@@ -1,7 +1,7 @@
-import { SlashCommandBuilder, CommandInteraction, } from 'discord.js';
+import { CommandInteraction, RESTPostAPIChatInputApplicationCommandsJSONBody, SlashCommandBuilder, } from 'discord.js';
 
 export type Command = {
-    data: SlashCommandBuilder,
+    data: RESTPostAPIChatInputApplicationCommandsJSONBody,
     execute: (interaction: CommandInteraction) => Promise<void>
 };
 

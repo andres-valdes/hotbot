@@ -23,7 +23,7 @@ export class CommandManager {
     }
 
     public async registerWithServer(restClient: REST): Promise<Record<string, Command>> {
-        const commandData = Object.entries(this.registeredCommands).map(([_, command]) => command.data.toJSON());
+        const commandData = Object.entries(this.registeredCommands).map(([_, command]) => command.data);
         await restClient.put(Routes.applicationCommands(dotenv.config().parsed!['DISCORD_CLIENT_ID']), { body: commandData });
         return this.registeredCommands;
     }

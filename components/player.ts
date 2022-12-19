@@ -12,6 +12,7 @@ export async function getPlayer(): Promise<DisTube> {
     player.on('disconnect', async () => console.log('disconnected'));
     player.on('finish', async () => console.log('finish'));
     player.on('finishSong', async () => console.log('finishedSong'));
+    player.on('addSong', async () => console.log('addSong'));
     return player;
 }
 
