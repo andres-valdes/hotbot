@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction, CommandInteraction, RESTPostAPIChatInputApplicationCommandsJSONBody, SlashCommandBuilder, } from 'discord.js';
+import { ChatInputCommandInteraction, RESTPostAPIChatInputApplicationCommandsJSONBody, SlashCommandBuilder, } from 'discord.js';
 
 export type Command = {
     data: RESTPostAPIChatInputApplicationCommandsJSONBody,

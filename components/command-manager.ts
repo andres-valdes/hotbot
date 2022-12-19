@@ -1,4 +1,4 @@
-import { CommandInteraction, REST, Routes } from "discord.js";
+import { ChatInputCommandInteraction, CommandInteraction, REST, Routes } from "discord.js";
 import dotenv from 'dotenv';
 
 import { commands } from '../commands';
@@ -15,7 +15,7 @@ export class CommandManager {
         }, this.registeredCommands);
     }
 
-    public async exectute(interaction: CommandInteraction) {
+    public async exectute(interaction: ChatInputCommandInteraction) {
         if (!this.registeredCommands[interaction.commandName]) {
             return;
         }
