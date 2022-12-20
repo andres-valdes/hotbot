@@ -1,4 +1,4 @@
-FROM node:18-alpine
+FROM node:19-alpine
 
 WORKDIR /usr/src/app
 
@@ -21,4 +21,4 @@ RUN npm install -g ts-node
 
 RUN npm install
 
-CMD [ "ts-node", "./index.ts" ]
+CMD [ "ts-node", "src/index.ts" ]
