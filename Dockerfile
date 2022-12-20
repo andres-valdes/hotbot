@@ -2,7 +2,7 @@ FROM node:18-alpine
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+COPY . .
 
 RUN apk update
 RUN apk add
@@ -20,7 +20,5 @@ RUN npm install -g typescript
 RUN npm install -g ts-node
 
 RUN npm install
-
-COPY . .
 
 CMD [ "ts-node", "./index.ts" ]
