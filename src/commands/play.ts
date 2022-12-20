@@ -52,7 +52,7 @@ export const play = createCommand({
         let playerArguments: string | null = null;
         switch (interaction.options.getSubcommand()) {
             case SubCommand.SEARCH: {
-                playerArguments = interaction.options.getString('search-terms');
+                playerArguments = interaction.options.getString('search');
                 console.log(`Searching for keywords ${playerArguments}`);
                 break;
             }
