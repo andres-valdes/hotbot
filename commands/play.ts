@@ -4,8 +4,8 @@ import { createCommand } from './command';
 import { getPlayer } from '../components/player';
 
 enum SubCommand {
-    SEARCH = 'SEARCH',
-    URL = 'URL',
+    SEARCH = 'search',
+    URL = 'url',
 }
 
 export const play = createCommand({

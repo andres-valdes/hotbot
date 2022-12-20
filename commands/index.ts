@@ -1,4 +1,4 @@
-import { Command } from './command';
+import { Command, CommandCreationData } from './command';
 import { play } from './play';
 import { queue } from './queue';
 import { setChannel } from './set-channel';
@@ -9,4 +9,4 @@ import { shuffle } from './shuffle';
 
 export type { Command } from './command';
 
-export const commands: Command[] = [play, shutdown, stfu, queue, skip, setChannel, shuffle];
+export const commands: Command<CommandCreationData>[] = [play, shutdown, stfu, queue, skip, setChannel, shuffle];

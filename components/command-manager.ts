@@ -4,10 +4,11 @@ import dotenv from 'dotenv';
 import { commands } from '../commands';
 import type { Command } from '../commands';
 import { getPlayer } from "./player";
+import { CommandCreationData } from "../commands/command";
 
 export class CommandManager {
     private static instance: CommandManager | null;
-    private registeredCommands: Record<string, Command>;
+    private registeredCommands: Record<string, Command<CommandCreationData>>;
     private constructor() {
         this.registeredCommands = {};
         commands.reduce((currentlyRegistedCommands, commandToRegister) => {
@@ -23,7 +24,7 @@ export class CommandManager {
         return await this.registeredCommands[interaction.commandName].execute(interaction, { player: await getPlayer(), assignedChannel });
     }
 
-    public async registerWithServer(restClient: REST): Promise<Record<string, Command>> {
+    public async registerWithServer(restClient: REST): Promise<Record<string, Command<CommandCreationData>>> {
         const commandData = Object.entries(this.registeredCommands).map(([_, command]) => command.data);
         await restClient.put(Routes.applicationCommands(dotenv.config().parsed!['DISCORD_CLIENT_ID']), { body: commandData });
         return this.registeredCommands;

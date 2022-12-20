@@ -1,11 +1,13 @@
-import { ChatInputCommandInteraction, RESTPostAPIChatInputApplicationCommandsJSONBody, SlashCommandBuilder, TextChannel, } from 'discord.js';
+import { ChatInputCommandInteraction, RESTPostAPIChatInputApplicationCommandsJSONBody, TextChannel, } from 'discord.js';
 import { DisTube } from 'distube';
 
-export type Command = {
+export type CommandCreationData = {
     data: RESTPostAPIChatInputApplicationCommandsJSONBody,
-    execute: (interaction: ChatInputCommandInteraction, ctx: { player: DisTube, assignedChannel: TextChannel }) => Promise<void>
+    execute(interaction: ChatInputCommandInteraction, ctx: { player: DisTube, assignedChannel: TextChannel }): Promise<void>
 };
 
-export function createCommand<TCommand extends Command>(command: TCommand) {
-    return command;
+export type Command<TCommandCreationData extends CommandCreationData> = TCommandCreationData & { name: string };
+
+export function createCommand<TCommandCreationData extends CommandCreationData>(commandCreationData: TCommandCreationData): Command<TCommandCreationData> {
+    return { ...commandCreationData, name: commandCreationData.data.name };
 }
