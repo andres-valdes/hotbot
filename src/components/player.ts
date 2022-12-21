@@ -25,7 +25,16 @@ export async function getPlayer(): Promise<DisTube> {
         const client = await getAPIClient();
         const channel = client.channels.resolve(ChannelManager.getx());
         if (channel?.isTextBased()) {
-            await channel.send(`Playing ${song.name}`);
+            const messageContent = `Playing ${song.name} by ${song.uploader.name}`;
+            const lastMessage = channel.lastMessage;
+            if (
+                lastMessage != null &&
+                lastMessage.content.includes('Playing')
+            ) {
+                await lastMessage.edit(messageContent);
+            } else {
+                await channel.send(messageContent);
+            }
         }
     });
     player.on('disconnect', async () => console.log('disconnected'));

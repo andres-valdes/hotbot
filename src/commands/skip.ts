@@ -14,6 +14,5 @@ export const skip = createCommand({
             return;
         }
         await player.skip(assignedChannel);
-        await interaction.reply('playing stuff');
     },
 });
