@@ -6,6 +6,7 @@ import { shutdown } from './shutdown';
 import { skip } from './skip';
 import { stfu } from './stfu';
 import { shuffle } from './shuffle';
+import { usual } from './usual';
 
 export type { Command } from './command';
 
@@ -17,4 +18,5 @@ export const commands: Command<CommandCreationData>[] = [
     skip,
     setChannel,
     shuffle,
+    usual,
 ];

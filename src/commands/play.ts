@@ -70,6 +70,7 @@ export const play = createCommand({
             throw new Error('Failed to parse arguments');
         }
 
+        await interaction.reply('BOOTING UP');
         await (await getPlayer()).play(channel, playerArguments);
     },
 });

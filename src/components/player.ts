@@ -3,8 +3,10 @@ import { SpotifyPlugin } from '@distube/spotify';
 
 import { ChannelManager } from './channel-manager';
 import { getAPIClient } from './discord';
+import { Message } from 'discord.js';
 
 let player: DisTube | null = null;
+let lastPlayMessage: Message<boolean> | null = null;
 
 export async function getPlayer(): Promise<DisTube> {
     if (player != null) {
@@ -26,15 +28,14 @@ export async function getPlayer(): Promise<DisTube> {
         const channel = client.channels.resolve(ChannelManager.getx());
         if (channel?.isTextBased()) {
             const messageContent = `Playing ${song.name} by ${song.uploader.name}`;
-            const lastMessage = channel.lastMessage;
-            if (
-                lastMessage != null &&
-                lastMessage.content.includes('Playing')
-            ) {
-                await lastMessage.edit(messageContent);
+            if (lastPlayMessage != null) {
+                console.log('editing last message');
+                await lastPlayMessage.edit(messageContent);
             } else {
+                console.log('sending new message');
                 await channel.send(messageContent);
             }
+            lastPlayMessage = channel.lastMessage;
         }
     });
     player.on('disconnect', async () => console.log('disconnected'));
