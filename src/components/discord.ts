@@ -5,6 +5,7 @@ import nullthrows from 'nullthrows';
 import { Reply } from '../commands/reply';
 import { ChannelManager } from './channel-manager';
 import { CommandManager } from './command-manager';
+import { NoVoiceError } from './error';
 
 const token = nullthrows(dotenv.config().parsed)['HOTBOT_TOKEN'];
 
@@ -23,11 +24,12 @@ export async function getAPIClient(): Promise<Client<boolean>> {
     console.log(`Logged in with token ${authedToken}`);
 
     apiClient.on('interactionCreate', async interaction => {
+        if (!interaction.isChatInputCommand()) {
+            console.log('Received unknown interaction.');
+            return;
+        }
         try {
             const assignedChannel = ChannelManager.getx();
-            if (!interaction.isChatInputCommand()) {
-                return;
-            }
             await interaction.deferReply();
             const { content } =
                 interaction.channelId !== assignedChannel.id &&
@@ -42,9 +44,11 @@ export async function getAPIClient(): Promise<Client<boolean>> {
             await interaction.editReply(content);
         } catch (e) {
             console.error(e);
-            if (interaction.isRepliable()) {
-                await interaction.editReply('can you not?');
-            }
+            e instanceof NoVoiceError
+                ? await interaction.editReply(
+                      'You need to be in a voice channel to summon me, dumbass.',
+                  )
+                : await interaction.editReply('can you not?');
         }
     });
 

@@ -10,7 +10,10 @@ import { Reply } from './reply';
 export type CommandCreationData = {
     data: RESTPostAPIChatInputApplicationCommandsJSONBody;
     execute(
-        interaction: ChatInputCommandInteraction,
+        interaction: Omit<
+            ChatInputCommandInteraction,
+            'reply' | 'deferReply' | 'editReply'
+        >,
         ctx: { player: DisTube; assignedChannel: TextChannel },
     ): Promise<Reply>;
 };

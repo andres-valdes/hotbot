@@ -8,6 +8,7 @@ import {
     GuildMember,
     Message,
 } from 'discord.js';
+import { NoVoiceError } from './error';
 
 let player: DisTube | null = null;
 let lastPlayMessage: Message<boolean> | null = null;
@@ -48,16 +49,16 @@ export async function getPlayer(): Promise<DisTube> {
 }
 
 export async function executePlay(
-    interaction: ChatInputCommandInteraction<CacheType>,
+    interaction: Omit<
+        ChatInputCommandInteraction<CacheType>,
+        'editReply' | 'deferReply' | 'reply'
+    >,
     playable: string | Song<unknown> | Playlist<unknown> | SearchResult,
 ): Promise<void> {
     const member = interaction.member as GuildMember;
     const channel = member.voice.channel;
     if (channel == null) {
-        await interaction.editReply(
-            'You need to be in a voice channel to summon me, dumbass.',
-        );
-        throw new Error('Attempted to play from a non-voice channel.');
+        throw new NoVoiceError('Attempted to play from a non-voice channel.');
     }
     await (await getPlayer()).play(channel, playable);
 }
