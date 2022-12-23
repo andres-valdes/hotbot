@@ -23,7 +23,7 @@ export const usual = createCommand({
                 .map(({ value }) => value),
         );
         await executePlay(interaction, shuffled);
-        await interaction.reply(
+        await interaction.editReply(
             `The usual, great choice sir, pre shuffled just for you`,
         );
     },

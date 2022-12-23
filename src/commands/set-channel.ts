@@ -25,6 +25,6 @@ export const setChannel = createCommand({
             true,
         ) as TextChannel;
         ChannelManager.assign(channel);
-        await interaction.reply(`Aight, moving over to ${channel.name}.`);
+        await interaction.editReply(`Aight, moving over to ${channel.name}.`);
     },
 });

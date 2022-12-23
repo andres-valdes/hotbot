@@ -60,7 +60,7 @@ export const play = createCommand({
         if (playerArguments == null) {
             throw new Error('Failed to parse arguments');
         }
-        await interaction.reply('BOOTING UP');
+        await interaction.editReply('BOOTING UP');
         await executePlay(interaction, playerArguments);
     },
 });

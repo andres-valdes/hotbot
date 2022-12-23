@@ -16,6 +16,6 @@ export const stfu = createCommand({
         const player = await getPlayer();
         await player.stop(interaction.guild);
 
-        await interaction.reply('aight chill man');
+        await interaction.editReply('aight chill man');
     },
 });

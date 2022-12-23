@@ -17,6 +17,6 @@ export const shuffle = createCommand({
             return;
         }
         await player.shuffle(channel);
-        await interaction.reply('Scramblin time');
+        await interaction.editReply('Scramblin time');
     },
 });

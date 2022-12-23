@@ -29,6 +29,7 @@ export async function getAPIClient(): Promise<Client<boolean>> {
             if (!interaction.isChatInputCommand()) {
                 return;
             }
+            await interaction.deferReply();
             if (interaction.commandName === 'setchannel') {
                 await setChannel.execute(interaction, {
                     player: await getPlayer(),

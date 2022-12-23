@@ -12,10 +12,10 @@ export const shutdown = createCommand({
         .toJSON(),
     async execute(interaction) {
         if (interaction.user.tag == tristan || interaction.user.tag == andres) {
-            interaction.reply('im sowwy for hurting you :(');
+            await interaction.editReply('im sowwy for hurting you :(');
             interaction.client.destroy();
         } else {
-            interaction.reply(
+            await interaction.editReply(
                 'brother, you are not powerful enough to contain me',
             );
         }

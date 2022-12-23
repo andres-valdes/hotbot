@@ -60,7 +60,7 @@ export async function executePlay(
     const member = interaction.member as GuildMember;
     const channel = member.voice.channel;
     if (channel == null) {
-        await interaction.reply(
+        await interaction.editReply(
             'You need to be in a voice channel to summon me, dumbass.',
         );
         throw new Error('Attempted to play from a non-voice channel.');

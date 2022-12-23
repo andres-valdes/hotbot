@@ -28,6 +28,6 @@ export const queue = createCommand({
         }
         const url = new URL(urlQuery);
         await player.play(channel, url.toString());
-        await interaction.reply('Added song to queue');
+        await interaction.editReply('Added song to queue');
     },
 });

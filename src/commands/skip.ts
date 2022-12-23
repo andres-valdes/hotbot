@@ -14,6 +14,6 @@ export const skip = createCommand({
             return;
         }
         await player.skip(assignedChannel);
-        await interaction.reply(`Damn that song sucked, good choice king`);
+        await interaction.editReply(`Damn that song sucked, good choice king`);
     },
 });
