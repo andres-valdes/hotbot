@@ -24,18 +24,16 @@ export async function getPlayer(): Promise<DisTube> {
         ],
     });
     player.on('playSong', async (_, song) => {
-        const client = await getAPIClient();
-        const channel = client.channels.resolve(ChannelManager.getx());
-        if (channel?.isTextBased()) {
-            const messageContent = `Playing ${song.name} by ${song.uploader.name}`;
-            if (lastPlayMessage != null) {
-                console.log('editing last message');
-                await lastPlayMessage.edit(messageContent);
-            } else {
-                console.log('sending new message');
-                await channel.send(messageContent);
-            }
-            lastPlayMessage = channel.lastMessage;
+        const channel = ChannelManager.getx();
+        const messageContent = `Playing ${song.name} uploaded by ${song.uploader.name}`;
+        if (
+            lastPlayMessage != null &&
+            lastPlayMessage.id == channel.lastMessageId
+        ) {
+            await lastPlayMessage.edit(messageContent);
+        } else {
+            const message = await channel.send(messageContent);
+            lastPlayMessage = message;
         }
     });
     player.on('disconnect', async () => console.log('disconnected'));

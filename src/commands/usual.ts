@@ -1,4 +1,6 @@
 import { SlashCommandBuilder, GuildMember } from 'discord.js';
+import { DisTubeHandler } from 'distube';
+
 import { createCommand } from './command';
 
 const hotBoysCoolJams =
@@ -19,9 +21,17 @@ export const usual = createCommand({
             return;
         }
 
-        await player.play(channel, hotBoysCoolJams);
-        await player.shuffle(channel);
-        await player.skip(channel);
+        const handler = new DisTubeHandler(player);
+        const playlist = await handler.resolvePlaylist(hotBoysCoolJams);
+
+        const shuffled = await player.createCustomPlaylist(
+            playlist.songs
+                .map(value => ({ value, sort: Math.random() }))
+                .sort((a, b) => a.sort - b.sort)
+                .map(({ value }) => value),
+        );
+
+        await player.play(channel, shuffled);
         await interaction.reply(
             `The usual, great choice sir, pre shuffled just for you`,
         );
