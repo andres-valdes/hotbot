@@ -2,6 +2,7 @@ import { SlashCommandBuilder } from 'discord.js';
 
 import { createCommand } from './command';
 import { executePlay } from '../components/player';
+import { Reply } from './reply';
 
 enum SubCommand {
     SEARCH = 'search',
@@ -60,7 +61,7 @@ export const play = createCommand({
         if (playerArguments == null) {
             throw new Error('Failed to parse arguments');
         }
-        await interaction.editReply('BOOTING UP');
         await executePlay(interaction, playerArguments);
+        return Reply.send('BOOTING UP');
     },
 });

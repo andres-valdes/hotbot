@@ -29,7 +29,7 @@ export class CommandManager {
         assignedChannel: TextChannel,
     ) {
         if (!this.registeredCommands[interaction.commandName]) {
-            return;
+            throw new Error('Received unknown command');
         }
         return await this.registeredCommands[interaction.commandName].execute(
             interaction,

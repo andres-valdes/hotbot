@@ -1,6 +1,7 @@
 import { SlashCommandBuilder } from 'discord.js';
 
 import { createCommand } from './command';
+import { Reply } from './reply';
 
 export const skip = createCommand({
     data: new SlashCommandBuilder()
@@ -11,9 +12,9 @@ export const skip = createCommand({
         const queue = player.getQueue(assignedChannel);
         if (queue == null || queue.songs.length === 0) {
             await player.stop(assignedChannel);
-            return;
+        } else {
+            await player.skip(assignedChannel);
         }
-        await player.skip(assignedChannel);
-        await interaction.editReply(`Damn that song sucked, good choice king`);
+        return Reply.send(`Damn that song sucked, good choice king`);
     },
 });

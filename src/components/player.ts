@@ -1,5 +1,4 @@
 import { DisTube, Playlist, SearchResult, Song } from 'distube';
-import { SpotifyPlugin } from '@distube/spotify';
 
 import { ChannelManager } from './channel-manager';
 import { getAPIClient } from './discord';
@@ -22,11 +21,6 @@ export async function getPlayer(): Promise<DisTube> {
             quality: 'highestaudio',
             highWaterMark: 1 << 25,
         },
-        plugins: [
-            new SpotifyPlugin({
-                parallel: true,
-            }),
-        ],
     });
     player.on('playSong', async (_, song) => {
         const channel = ChannelManager.getx();

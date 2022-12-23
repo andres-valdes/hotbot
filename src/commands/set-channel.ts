@@ -2,7 +2,7 @@ import { ChannelType, SlashCommandBuilder, TextChannel } from 'discord.js';
 
 import { createCommand } from './command';
 import { ChannelManager } from '../components/channel-manager';
-import { DisTube } from 'distube';
+import { Reply } from './reply';
 
 export const setChannel = createCommand({
     data: new SlashCommandBuilder()
@@ -16,15 +16,12 @@ export const setChannel = createCommand({
                 .setDescription('The channel that belongs to Hot Bot'),
         )
         .toJSON(),
-    async execute(
-        interaction,
-        _: { player: DisTube; assignedChannel: TextChannel | null },
-    ) {
+    async execute(interaction) {
         const channel = interaction.options.getChannel(
             'channel',
             true,
         ) as TextChannel;
         ChannelManager.assign(channel);
-        await interaction.editReply(`Aight, moving over to ${channel.name}.`);
+        return Reply.send(`Aight, moving over to ${channel.name}.`);
     },
 });

@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, GuildMember } from 'discord.js';
 
 import { createCommand } from './command';
+import { Reply } from './reply';
 
 export const shuffle = createCommand({
     data: new SlashCommandBuilder()
@@ -11,12 +12,11 @@ export const shuffle = createCommand({
         const member = interaction.member as GuildMember;
         const channel = member.voice.channel;
         if (channel == null) {
-            await interaction.reply(
+            return Reply.send(
                 'You need to be in a voice channel to summon me, dumbass.',
             );
-            return;
         }
         await player.shuffle(channel);
-        await interaction.editReply('Scramblin time');
+        return Reply.send('Scramblin time');
     },
 });

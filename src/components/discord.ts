@@ -2,10 +2,9 @@ import { Client, REST } from 'discord.js';
 import dotenv from 'dotenv';
 import nullthrows from 'nullthrows';
 
-import { setChannel } from '../commands/set-channel';
+import { Reply } from '../commands/reply';
 import { ChannelManager } from './channel-manager';
 import { CommandManager } from './command-manager';
-import { getPlayer } from './player';
 
 const token = nullthrows(dotenv.config().parsed)['HOTBOT_TOKEN'];
 
@@ -30,24 +29,21 @@ export async function getAPIClient(): Promise<Client<boolean>> {
                 return;
             }
             await interaction.deferReply();
-            if (interaction.commandName === 'setchannel') {
-                await setChannel.execute(interaction, {
-                    player: await getPlayer(),
-                    assignedChannel: null,
-                });
-                return;
-            }
-            if (interaction.channelId !== assignedChannel.id) {
-                await interaction.reply(
-                    `My brother in Christ I only have power in ${assignedChannel.name}`,
-                );
-                return;
-            }
-            await CommandManager.get().exectute(interaction, assignedChannel);
+            const { content } =
+                interaction.channelId !== assignedChannel.id &&
+                interaction.commandName !== 'setchannel'
+                    ? Reply.send(
+                          `My brother in Christ I only have power in ${assignedChannel.name}`,
+                      )
+                    : await CommandManager.get().exectute(
+                          interaction,
+                          assignedChannel,
+                      );
+            await interaction.editReply(content);
         } catch (e) {
             console.error(e);
             if (interaction.isRepliable()) {
-                await interaction.reply('can you not?');
+                await interaction.editReply('can you not?');
             }
         }
     });

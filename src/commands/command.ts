@@ -5,12 +5,14 @@ import {
 } from 'discord.js';
 import { DisTube } from 'distube';
 
+import { Reply } from './reply';
+
 export type CommandCreationData = {
     data: RESTPostAPIChatInputApplicationCommandsJSONBody;
     execute(
         interaction: ChatInputCommandInteraction,
         ctx: { player: DisTube; assignedChannel: TextChannel },
-    ): Promise<void>;
+    ): Promise<Reply>;
 };
 
 export type Command<TCommandCreationData extends CommandCreationData> =
