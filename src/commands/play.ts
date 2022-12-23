@@ -1,7 +1,7 @@
-import { SlashCommandBuilder, GuildMember } from 'discord.js';
+import { SlashCommandBuilder } from 'discord.js';
 
 import { createCommand } from './command';
-import { getPlayer } from '../components/player';
+import { executePlay } from '../components/player';
 
 enum SubCommand {
     SEARCH = 'search',
@@ -40,15 +40,6 @@ export const play = createCommand({
         )
         .toJSON(),
     async execute(interaction) {
-        const member = interaction.member as GuildMember;
-        const channel = member.voice.channel;
-        if (channel == null) {
-            await interaction.reply(
-                'You need to be in a voice channel to summon me, dumbass.',
-            );
-            return;
-        }
-
         let playerArguments: string | null = null;
         switch (interaction.options.getSubcommand()) {
             case SubCommand.SEARCH: {
@@ -69,8 +60,7 @@ export const play = createCommand({
         if (playerArguments == null) {
             throw new Error('Failed to parse arguments');
         }
-
         await interaction.reply('BOOTING UP');
-        await (await getPlayer()).play(channel, playerArguments);
+        await executePlay(interaction, playerArguments);
     },
 });

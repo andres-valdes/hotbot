@@ -1,9 +1,14 @@
-import { DisTube } from 'distube';
+import { DisTube, Playlist, SearchResult, Song } from 'distube';
 import { SpotifyPlugin } from '@distube/spotify';
 
 import { ChannelManager } from './channel-manager';
 import { getAPIClient } from './discord';
-import { Message } from 'discord.js';
+import {
+    CacheType,
+    ChatInputCommandInteraction,
+    GuildMember,
+    Message,
+} from 'discord.js';
 
 let player: DisTube | null = null;
 let lastPlayMessage: Message<boolean> | null = null;
@@ -46,4 +51,19 @@ export async function getPlayer(): Promise<DisTube> {
         }
     });
     return player;
+}
+
+export async function executePlay(
+    interaction: ChatInputCommandInteraction<CacheType>,
+    playable: string | Song<unknown> | Playlist<unknown> | SearchResult,
+): Promise<void> {
+    const member = interaction.member as GuildMember;
+    const channel = member.voice.channel;
+    if (channel == null) {
+        await interaction.reply(
+            'You need to be in a voice channel to summon me, dumbass.',
+        );
+        throw new Error('Attempted to play from a non-voice channel.');
+    }
+    await (await getPlayer()).play(channel, playable);
 }
