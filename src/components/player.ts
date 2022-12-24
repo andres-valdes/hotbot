@@ -2,13 +2,9 @@ import { DisTube, Playlist, SearchResult, Song } from 'distube';
 
 import { ChannelManager } from './channel-manager';
 import { getAPIClient } from './discord';
-import {
-    CacheType,
-    ChatInputCommandInteraction,
-    GuildMember,
-    Message,
-} from 'discord.js';
+import { GuildMember, Message } from 'discord.js';
 import { NoVoiceError } from './error';
+import { DeferredChatInputCommandInteraction } from '../commands/command';
 
 let player: DisTube | null = null;
 let lastPlayMessage: Message<boolean> | null = null;
@@ -49,10 +45,7 @@ export async function getPlayer(): Promise<DisTube> {
 }
 
 export async function executePlay(
-    interaction: Omit<
-        ChatInputCommandInteraction<CacheType>,
-        'editReply' | 'deferReply' | 'reply'
-    >,
+    interaction: DeferredChatInputCommandInteraction,
     playable: string | Song<unknown> | Playlist<unknown> | SearchResult,
 ): Promise<void> {
     const member = interaction.member as GuildMember;

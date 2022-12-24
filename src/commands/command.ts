@@ -7,13 +7,15 @@ import { DisTube } from 'distube';
 
 import { Reply } from './reply';
 
+export type DeferredChatInputCommandInteraction = Omit<
+    ChatInputCommandInteraction,
+    'reply' | 'deferReply' | 'editReply'
+>;
+
 export type CommandCreationData = {
     data: RESTPostAPIChatInputApplicationCommandsJSONBody;
     execute(
-        interaction: Omit<
-            ChatInputCommandInteraction,
-            'reply' | 'deferReply' | 'editReply'
-        >,
+        interaction: DeferredChatInputCommandInteraction,
         ctx: { player: DisTube; assignedChannel: TextChannel },
     ): Promise<Reply>;
 };

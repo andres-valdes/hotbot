@@ -29,8 +29,8 @@ export async function getAPIClient(): Promise<Client<boolean>> {
             return;
         }
         try {
-            const assignedChannel = ChannelManager.getx();
             await interaction.deferReply();
+            const assignedChannel = ChannelManager.getx();
             const { content } =
                 interaction.channelId !== assignedChannel.id &&
                 interaction.commandName !== 'setchannel'
