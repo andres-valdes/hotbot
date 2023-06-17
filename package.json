@@ -2,6 +2,9 @@
     "scripts": {
         "lint": "eslint 'src/**/*.ts'",
         "format": "prettier --config .prettierrc 'src/**/*.ts' --write",
+        "build": "tsc -p .",
+        "start-dev": "ts-node src/index.ts",
+        "start-prod": "node dist/index.js",
         "f": "npm run format"
     },
     "dependencies": {
