@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 
-import { getAPIClient, getRESTClient } from './components/discord';
-import { CommandManager } from './components/command-manager';
+import { getAPIClient, getRESTClient } from './core/third-party/discord';
+import { CommandManager } from './core/command-manager';
 
 dotenv.config();
 

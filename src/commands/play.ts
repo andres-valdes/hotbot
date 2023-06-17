@@ -1,8 +1,8 @@
 import { SlashCommandBuilder } from 'discord.js';
 
 import { createCommand } from './command';
-import { executePlay } from '../components/player';
-import { Reply } from './reply';
+import { executePlay } from '../core/third-party/player';
+import { Reply } from '../core/reply';
 
 enum SubCommand {
     SEARCH = 'search',
@@ -45,7 +45,6 @@ export const play = createCommand({
         switch (interaction.options.getSubcommand()) {
             case SubCommand.SEARCH: {
                 playerArguments = interaction.options.getString('search');
-                console.log(`Searching for keywords ${playerArguments}`);
                 break;
             }
             case SubCommand.URL: {
@@ -54,7 +53,6 @@ export const play = createCommand({
                     throw new Error('Null URL passed');
                 }
                 playerArguments = new URL(maybeUrl).toString();
-                console.log(`Loading url ${playerArguments}`);
                 break;
             }
         }

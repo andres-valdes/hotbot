@@ -5,7 +5,7 @@ import {
 } from 'discord.js';
 import { DisTube } from 'distube';
 
-import { Reply } from './reply';
+import { Reply } from '../core/reply';
 
 export type DeferredChatInputCommandInteraction = Omit<
     ChatInputCommandInteraction,

@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from 'discord.js';
 
 import { createCommand } from './command';
-import { Reply } from './reply';
+import { Reply } from '../core/reply';
 
 enum HotBoys {
     ANDRES = '106106406838505472',

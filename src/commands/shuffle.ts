@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, GuildMember } from 'discord.js';
 
 import { createCommand } from './command';
-import { Reply } from './reply';
+import { Reply } from '../core/reply';
 
 export const shuffle = createCommand({
     data: new SlashCommandBuilder()

@@ -1,9 +1,9 @@
 import { SlashCommandBuilder } from 'discord.js';
 import { DisTubeHandler } from 'distube';
-import { executePlay } from '../components/player';
+import { executePlay } from '../core/third-party/player';
 
 import { createCommand } from './command';
-import { Reply } from './reply';
+import { Reply } from '../core/reply';
 
 const hotBoysCoolJams =
     'https://music.youtube.com/playlist?list=PLYQA9yqGKUydaT62Y7AQgTchchLYRfVwV&feature=share';

@@ -1,8 +1,8 @@
 import { ChannelType, SlashCommandBuilder, TextChannel } from 'discord.js';
 
 import { createCommand } from './command';
-import { ChannelManager } from '../components/channel-manager';
-import { Reply } from './reply';
+import { ChannelManager } from '../core/channel-manager';
+import { Reply } from '../core/reply';
 
 export const setChannel = createCommand({
     data: new SlashCommandBuilder()
