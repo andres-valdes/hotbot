@@ -18,14 +18,14 @@ export async function handle(
             ChannelManager.get().getAssignedChannel(interaction);
         const { content } =
             interaction.channelId !== assignedChannel.id &&
-                interaction.commandName !== 'setchannel'
+            interaction.commandName !== 'setchannel'
                 ? Reply.send(
-                    `My brother in Christ I only have power in ${assignedChannel.name}`,
-                )
+                      `My brother in Christ I only have power in ${assignedChannel.name}`,
+                  )
                 : await CommandManager.get().execute(
-                    interaction,
-                    assignedChannel,
-                );
+                      interaction,
+                      assignedChannel,
+                  );
         await interaction.editReply(content);
     } catch (e) {
         console.error(e);
