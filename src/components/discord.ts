@@ -6,12 +6,12 @@ import { ChannelManager } from './channel-manager';
 import { CommandManager } from './command-manager';
 import { NoVoiceError } from './error';
 
-const token = nullthrows(process.env['HOTBOT_TOKEN']);
 
 let apiClient: Client<boolean> | null;
 let restClient: REST | null;
 
 export async function getAPIClient(): Promise<Client<boolean>> {
+    const token = nullthrows(process.env['HOTBOT_TOKEN']);
     if (apiClient != null) {
         return apiClient;
     }
@@ -56,7 +56,7 @@ export async function getAPIClient(): Promise<Client<boolean>> {
 
 export function getRESTClient(): REST {
     if (restClient == null) {
-        restClient = new REST({ version: '10' }).setToken(token);
+        restClient = new REST({ version: '10' }).setToken(nullthrows(process.env['HOTBOT_TOKEN']));
     }
     return restClient;
 }
