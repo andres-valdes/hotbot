@@ -28,7 +28,6 @@ export async function handle(
                   );
         await interaction.editReply(content);
     } catch (e) {
-        console.error(e);
         const channel = interaction.channel as TextChannel;
         if (e instanceof NoVoiceError) {
             await interaction.editReply(
@@ -40,7 +39,8 @@ export async function handle(
             );
             ChannelManager.get().setAssignedChannel(channel);
         } else {
-            await interaction.editReply('can you not?');
+            console.error(e);
+            await interaction.editReply('oh fuck oh shit');
         }
     }
 }
