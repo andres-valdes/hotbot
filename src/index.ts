@@ -7,10 +7,9 @@ import { ChannelType } from 'discord.js';
 import nullthrows from 'nullthrows';
 
 async function start(): Promise<void> {
+    dotenv.config();
     const client = await getAPIClient();
-    const defaultChannelId = nullthrows(dotenv.config().parsed)[
-        'DEFAULT_CHANNEL_ID'
-    ];
+    const defaultChannelId = nullthrows(process.env['DEFAULT_CHANNEL_ID']);
     const defaultChannel = await client.channels.fetch(defaultChannelId);
     if (defaultChannel == null) {
         throw new Error(

@@ -4,7 +4,6 @@ import {
     Routes,
     TextChannel,
 } from 'discord.js';
-import dotenv from 'dotenv';
 import nullthrows from 'nullthrows';
 
 import { commands } from '../commands';
@@ -45,7 +44,7 @@ export class CommandManager {
         );
         await restClient.put(
             Routes.applicationCommands(
-                nullthrows(dotenv.config()?.parsed)['DISCORD_CLIENT_ID'],
+                nullthrows(process.env['DISCORD_CLIENT_ID']),
             ),
             { body: commandData },
         );

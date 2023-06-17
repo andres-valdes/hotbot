@@ -1,5 +1,4 @@
 import { Client, REST } from 'discord.js';
-import dotenv from 'dotenv';
 import nullthrows from 'nullthrows';
 
 import { Reply } from '../commands/reply';
@@ -7,7 +6,7 @@ import { ChannelManager } from './channel-manager';
 import { CommandManager } from './command-manager';
 import { NoVoiceError } from './error';
 
-const token = nullthrows(dotenv.config().parsed)['HOTBOT_TOKEN'];
+const token = nullthrows(process.env['HOTBOT_TOKEN']);
 
 let apiClient: Client<boolean> | null;
 let restClient: REST | null;
@@ -33,21 +32,21 @@ export async function getAPIClient(): Promise<Client<boolean>> {
             const assignedChannel = ChannelManager.getx();
             const { content } =
                 interaction.channelId !== assignedChannel.id &&
-                interaction.commandName !== 'setchannel'
+                    interaction.commandName !== 'setchannel'
                     ? Reply.send(
-                          `My brother in Christ I only have power in ${assignedChannel.name}`,
-                      )
+                        `My brother in Christ I only have power in ${assignedChannel.name}`,
+                    )
                     : await CommandManager.get().exectute(
-                          interaction,
-                          assignedChannel,
-                      );
+                        interaction,
+                        assignedChannel,
+                    );
             await interaction.editReply(content);
         } catch (e) {
             console.error(e);
             e instanceof NoVoiceError
                 ? await interaction.editReply(
-                      'You need to be in a voice channel to summon me, dumbass.',
-                  )
+                    'You need to be in a voice channel to summon me, dumbass.',
+                )
                 : await interaction.editReply('can you not?');
         }
     });
