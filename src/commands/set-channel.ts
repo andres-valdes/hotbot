@@ -21,7 +21,7 @@ export const setChannel = createCommand({
             'channel',
             true,
         ) as TextChannel;
-        ChannelManager.assign(channel);
+        ChannelManager.get().setAssignedChannel(channel);
         return Reply.send(`Aight, moving over to ${channel.name}.`);
     },
 });

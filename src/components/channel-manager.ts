@@ -1,34 +1,33 @@
-import { ChannelType, TextChannel } from 'discord.js';
+import { TextChannel } from 'discord.js';
+import { GuildIdResolvable, resolveGuildId } from 'distube';
+import { NoSetChannelError } from './error';
 
 export class ChannelManager {
     private static instance: ChannelManager | null;
-    private constructor(private _assignedChannel: TextChannel) {}
-
-    private get assignedChannel(): TextChannel {
-        return this._assignedChannel;
+    private _guildsToChannels: Record<string, TextChannel>;
+    private constructor() {
+        this._guildsToChannels = {};
     }
 
-    private set assignedChannel(channel: TextChannel) {
-        if (channel.type !== ChannelType.GuildText) {
-            throw new Error('You can only assign a text channel to Hot Bot!');
+    public getAssignedChannel(guild: GuildIdResolvable): TextChannel {
+        const guildId = resolveGuildId(guild);
+        const channel = this._guildsToChannels[guildId];
+        if (channel == null) {
+            throw new NoSetChannelError();
         }
-        this._assignedChannel = channel;
+        return channel;
     }
 
-    public static assign(channel: TextChannel): ChannelManager {
+    public setAssignedChannel(channel: TextChannel) {
+        const guildId = resolveGuildId(channel);
+        this._guildsToChannels[guildId] = channel;
+    }
+
+    public static get(): ChannelManager {
         if (ChannelManager.instance == null) {
-            ChannelManager.instance = new ChannelManager(channel);
+            ChannelManager.instance = new ChannelManager();
             return ChannelManager.instance;
         }
-        ChannelManager.instance.assignedChannel = channel;
         return ChannelManager.instance;
-    }
-
-    public static getx(): TextChannel {
-        const assignedChannel = ChannelManager.instance?.assignedChannel;
-        if (assignedChannel == null) {
-            throw new Error('Channel was not set');
-        }
-        return assignedChannel;
     }
 }

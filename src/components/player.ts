@@ -21,8 +21,8 @@ export async function getPlayer(): Promise<DisTube> {
         },
         plugins: [new SpotifyPlugin()],
     });
-    player.on('playSong', async (_, song) => {
-        const channel = ChannelManager.getx();
+    player.on('playSong', async (queue, song) => {
+        const channel = ChannelManager.get().getAssignedChannel(queue);
         const messageContent = `Playing ${song.name} uploaded by ${song.uploader.name}`;
         if (
             lastPlayMessage != null &&
@@ -37,8 +37,8 @@ export async function getPlayer(): Promise<DisTube> {
     player.on('disconnect', async () => console.log('disconnected'));
     player.on('finish', async () => console.log('finish'));
     player.on('finishSong', async () => console.log('finishedSong'));
-    player.on('addSong', async (_, song) => {
-        const channel = ChannelManager.getx();
+    player.on('addSong', async (queue, song) => {
+        const channel = ChannelManager.get().getAssignedChannel(queue);
         if (channel?.isTextBased()) {
             await channel.send(`Added ${song.name} to the queue`);
         }
