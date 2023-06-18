@@ -6,7 +6,10 @@ jobs:
   typecheck:
     runs-on: ubuntu-latest
     steps:
-    - name: Checking for type errors.
-      uses: fersilva16/ts-report-action@1.1.0
-      with:
-        project: ../tsconfig.json
+      - name: What even are these files
+        run: |
+          ls
+      - name: Checking for type errors.
+        uses: fersilva16/ts-report-action@1.1.0
+        with:
+          project: ../tsconfig.json
