@@ -6,8 +6,11 @@ jobs:
   typecheck:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-      - run: npm install
-      - name: Checking for type errors.
-        uses: andoshin11/typescript-error-reporter-action@v1.0.2
+      - name: Fetching files
+        uses: actions/checkout@v3
+      - name: Installing Node
+        uses: actions/setup-node@v3
+      - name: Installing packages
+        run: npm install
+      - name: Checking for type errors
+        run: npx tsc --noEmit
