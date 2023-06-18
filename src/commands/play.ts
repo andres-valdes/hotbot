@@ -42,7 +42,6 @@ export const play = createCommand({
         .toJSON(),
     async execute(interaction) {
         let playerArguments: string | null = null;
-        playerArguments?.do();
         switch (interaction.options.getSubcommand()) {
             case SubCommand.SEARCH: {
                 playerArguments = interaction.options.getString('search');
