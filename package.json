@@ -5,7 +5,7 @@
         "build": "tsc -p .",
         "start-dev": "ts-node src/index.ts",
         "start-prod": "node dist/index.js",
-        "test": "jest",
+        "t": "jest",
         "f": "npm run format"
     },
     "dependencies": {
