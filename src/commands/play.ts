@@ -1,8 +1,8 @@
 import { SlashCommandBuilder } from 'discord.js';
 
-import { createCommand } from './command';
 import { executePlay } from '../core/third-party/player';
 import { Reply } from '../core/reply';
+import { createCommand } from './command';
 
 enum SubCommand {
     SEARCH = 'search',
