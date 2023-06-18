@@ -1,0 +1,16 @@
+name: TypeScript
+
+on: [push, pull_request]
+
+jobs:
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetching files
+        uses: actions/checkout@v3
+      - name: Installing Node
+        uses: actions/setup-node@v3
+      - name: Installing packages
+        run: npm install
+      - name: Checking for type errors
+        run: npx tsc --noEmit
