@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 name: TypeScript
+=======
+name: Testing
+>>>>>>> Stashed changes
 
 on: [push, pull_request]
 
@@ -12,5 +16,9 @@ jobs:
               uses: actions/setup-node@v3
             - name: Installing packages
               run: npm install
+<<<<<<< Updated upstream
             - name: Checking for type errors
+=======
+            - name: Running tests
+>>>>>>> Stashed changes
               run: npm run t
